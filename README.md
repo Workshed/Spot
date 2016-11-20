@@ -1,9 +1,5 @@
 # Spot
 
-[![Version](https://img.shields.io/cocoapods/v/Spot.svg?style=flat)](http://cocoapods.org/pods/Spot)
-[![License](https://img.shields.io/cocoapods/l/Spot.svg?style=flat)](http://cocoapods.org/pods/Spot)
-[![Platform](https://img.shields.io/cocoapods/p/Spot.svg?style=flat)](http://cocoapods.org/pods/Spot)
-
 ![alt text](https://github.com/Workshed/Spot/blob/master/example.gif "Example usage")
 
 ## What's it do
