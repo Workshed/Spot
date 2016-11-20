@@ -6,9 +6,18 @@
 
 When you spot something in your app that needs reporting just shake your phone/device. A screenshot of the current screen will popup, draw on it to highlight areas and then send it on in an email.  
 
+## Installation
+
+Spot is available through [CocoaPods](http://cocoapods.org). To install
+it, simply add the following line to your Podfile:
+
+```ruby
+pod "Spot"
+```
+
 ## Getting started
 
-Once you've installed the pod go to your application delegate and add the following...
+Once you've installed the pod, go to your application delegate and add the following...
 
 Swift:
 ```
@@ -36,17 +45,6 @@ Then in (BOOL)application:(UIApplication *)application didFinishLaunchingWithOpt
 ## Example
 
 To run the example project, clone the repo, and open the project file in the "Example" folder
-
-## Requirements
-
-## Installation
-
-Spot is available through [CocoaPods](http://cocoapods.org). To install
-it, simply add the following line to your Podfile:
-
-```ruby
-pod "Spot"
-```
 
 ## Author
 
