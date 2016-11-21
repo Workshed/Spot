@@ -113,20 +113,30 @@ class SpotViewController: UIViewController {
 extension SpotViewController: MFMailComposeViewControllerDelegate {
     
     func showEmail() {
-        let mailViewController = MFMailComposeViewController()
-        mailViewController.mailComposeDelegate = self
-        mailViewController.setSubject("\(Spot.appName()) issue")
-        mailViewController.setMessageBody(Spot.deviceAppInfo(), isHTML: false)
-        
-        if let combinedImageData = combinedImageData() {
-            mailViewController.addAttachmentData(combinedImageData, mimeType: "image/png", fileName: "annotatedScreenshot.png")
+        if MFMailComposeViewController.canSendMail() {
+            let mailViewController = MFMailComposeViewController()
+            mailViewController.mailComposeDelegate = self
+            mailViewController.setSubject("\(Spot.appName()) issue")
+            mailViewController.setMessageBody(Spot.deviceAppInfo(), isHTML: false)
+            
+            if let combinedImageData = combinedImageData() {
+                mailViewController.addAttachmentData(combinedImageData, mimeType: "image/png", fileName: "annotatedScreenshot.png")
+            }
+            
+            if let screenshotData = screenshotData() {
+                mailViewController.addAttachmentData(screenshotData, mimeType: "image/png", fileName: "originalScreenshot.png")
+            }
+            
+            self.present(mailViewController, animated: true, completion: nil)
         }
-        
-        if let screenshotData = screenshotData() {
-            mailViewController.addAttachmentData(screenshotData, mimeType: "image/png", fileName: "originalScreenshot.png")
+        else {
+            let alert = UIAlertController(title: "Error", message: "No email account available", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) { _ in
+                alert.dismiss(animated: true, completion: nil)
+            })
+                
+            present(alert, animated: true, completion: nil)
         }
-        
-        self.present(mailViewController, animated: true, completion: nil)
     }
     
     func combinedImageData() -> Data? {
