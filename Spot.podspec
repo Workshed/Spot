@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Spot'
-  s.version          = '0.1.1'
+  s.version          = '0.1.2'
   s.summary          = 'A super simple pod for reporting UI issues.'
 
   s.description      = <<-DESC
@@ -24,7 +24,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'Spot/*.swift'
+  s.source_files = 'Spot/*.swift', '.swift-version'
   
   s.resource_bundles = {
     'Spot' => ['Spot/Spot.storyboard']
