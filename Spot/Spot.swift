@@ -52,11 +52,30 @@ extension UIWindow {
     }
     
     static func loadViewControllers(withScreenshot screenshot: UIImage) {
+        guard let initialViewController = loadSpotViewController() else { return }
+        guard let topViewController = topViewController() else { return }
+        
+        
+        initialViewController.orientationToLock = UIDevice.current.orientation
+        if ((topViewController as? OrientationLockNavigationController) != nil) {
+            // We're already presenting an instance of Spot!
+            return
+        }
+        else {
+            topViewController.present(initialViewController, animated: true, completion: nil)
+            if let screenshotViewController = initialViewController.topViewController as? SpotViewController {
+                screenshotViewController.screenshot = screenshot
+            }
+        }
+        
+    }
+    
+    static func loadSpotViewController() -> OrientationLockNavigationController? {
         // Handle pod bundle (if installed via 'pod install') or local for example
         var storyboard: UIStoryboard
         let podBundle = Bundle(for: self.classForCoder())
         if let bundleURL = podBundle.url(forResource: "Spot", withExtension: "bundle") {
-            guard let bundle = Bundle(url: bundleURL) else { return }
+            guard let bundle = Bundle(url: bundleURL) else { return nil }
             storyboard = UIStoryboard.init(name: "Spot", bundle: bundle)
         }
         else {
@@ -64,13 +83,22 @@ extension UIWindow {
         }
         
         if let initialViewController = storyboard.instantiateInitialViewController() as? OrientationLockNavigationController {
-            initialViewController.orientationToLock = UIDevice.current.orientation
-            let window = UIApplication.shared.keyWindow
-            window?.rootViewController?.present(initialViewController, animated: true, completion: nil)
-            if let screenshotViewController = initialViewController.topViewController as? SpotViewController {
-                screenshotViewController.screenshot = screenshot
-            }
+            return initialViewController
         }
+        else {
+            return nil
+        }
+    }
+    
+    static func topViewController() -> UIViewController? {
+        if var topViewController = UIApplication.shared.keyWindow?.rootViewController {
+            while let presentedViewController = topViewController.presentedViewController {
+                topViewController = presentedViewController
+            }
+            return topViewController
+        }
+        
+        return nil
     }
     
     static func combine(bottom bottomImage: UIImage, with topImage: UIImage) -> UIImage? {
