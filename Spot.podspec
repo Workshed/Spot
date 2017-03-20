@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Spot'
-  s.version          = '0.1.2'
+  s.version          = '0.1.3'
   s.summary          = 'A super simple pod for reporting UI issues.'
 
   s.description      = <<-DESC
@@ -16,7 +16,6 @@ TODO: Add long description of the pod here.
                        DESC
 
   s.homepage         = 'https://github.com/Workshed/Spot'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
   s.author           = { 'Daniel Leivers' => 'dan@sofaracing.com' }
   s.source           = { :git => 'https://github.com/Workshed/Spot.git', :tag => s.version.to_s }
