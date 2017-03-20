@@ -23,7 +23,7 @@ TODO: Add long description of the pod here.
 
   s.ios.deployment_target = '9.0'
 
-  s.source_files = 'Spot/*.swift'
+  s.source_files = 'Spot/*.swift', '.swift-version'
   
   s.resource_bundles = {
     'Spot' => ['Spot/Spot.storyboard']
