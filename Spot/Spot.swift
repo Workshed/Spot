@@ -19,7 +19,9 @@ extension UIWindow {
 @objc public class Spot: NSObject {
     
     static let sharedInstance = Spot()
-    var handling: Bool = false
+    fileprivate var handling: Bool = false
+    
+    private var defaultEmailAddress: String?
     
     public static func start() {
         sharedInstance.handling = true
@@ -27,6 +29,10 @@ extension UIWindow {
     
     public static func stop() {
         sharedInstance.handling = false
+    }
+    
+    public static func setDefault(emailAddress: String) {
+        sharedInstance.defaultEmailAddress = emailAddress
     }
     
     static func launchFlow() {
@@ -65,6 +71,7 @@ extension UIWindow {
             topViewController.present(initialViewController, animated: true, completion: nil)
             if let screenshotViewController = initialViewController.topViewController as? SpotViewController {
                 screenshotViewController.screenshot = screenshot
+                screenshotViewController.defaultEmailAddress = sharedInstance.defaultEmailAddress
             }
         }
         

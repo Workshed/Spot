@@ -40,7 +40,13 @@ Then in (BOOL)application:(UIApplication *)application didFinishLaunchingWithOpt
 ```
 [Spot start];
 ```
+### Set a default reporting email address
 
+To set a default email address which is prefilled on the MFMailComposeViewController just set it as follows:
+
+```
+Spot.setDefault(emailAddress: "dan@otaku-dev.co.uk")
+```
 
 ## Example
 
