@@ -13,6 +13,8 @@ Pod::Spec.new do |s|
 
   s.description      = <<-DESC
 A super simple pod for reporting UI issues.
+
+When you spot something in your app that needs reporting just shake your phone/device. A screenshot of the current screen will popup, draw on it to highlight areas and then send it on in an email.
                        DESC
 
   s.homepage         = 'https://github.com/Workshed/Spot'
