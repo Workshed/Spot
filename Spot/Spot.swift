@@ -16,12 +16,47 @@ extension UIWindow {
     }
 }
 
+public struct SpotAttachment {
+    let filename: String
+    let data: Data
+    let mimeType: String
+    
+    init(filename: String, data: Data, mimeType: String) {
+        self.filename = filename
+        self.data = data
+        self.mimeType = mimeType
+    }
+}
+
+public protocol SpotDelegate: class {
+    
+    /// Provides the default email address for reporting emails.
+    ///
+    /// - Returns: the email address to be used
+    func reportingEmailAddress() -> String?
+    
+    
+    /// Provides a file to attatch to the email
+    ///
+    /// - Returns: A file name string and the NSData representing the file.
+    func fileAttatchment() -> SpotAttachment?
+}
+
 @objc public class Spot: NSObject {
     
     static let sharedInstance = Spot()
     fileprivate var handling: Bool = false
     
-    private var defaultEmailAddress: String?
+    public weak var delegate: SpotDelegate?
+    
+    public static weak var delegate: SpotDelegate? {
+        get {
+            return sharedInstance.delegate
+        }
+        set {
+            sharedInstance.delegate = newValue
+        }
+    }
     
     public static func start() {
         sharedInstance.handling = true
@@ -29,10 +64,6 @@ extension UIWindow {
     
     public static func stop() {
         sharedInstance.handling = false
-    }
-    
-    public static func setDefault(emailAddress: String) {
-        sharedInstance.defaultEmailAddress = emailAddress
     }
     
     static func launchFlow() {
@@ -71,7 +102,7 @@ extension UIWindow {
             topViewController.present(initialViewController, animated: true, completion: nil)
             if let screenshotViewController = initialViewController.topViewController as? SpotViewController {
                 screenshotViewController.screenshot = screenshot
-                screenshotViewController.defaultEmailAddress = sharedInstance.defaultEmailAddress
+                screenshotViewController.delegate = delegate
             }
         }
         

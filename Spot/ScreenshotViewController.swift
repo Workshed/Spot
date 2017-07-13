@@ -15,7 +15,7 @@ class SpotViewController: UIViewController {
     @IBOutlet weak var screenshotImageView: UIImageView!
     
     var screenshot: UIImage?
-    var defaultEmailAddress: String?
+    weak var delegate: SpotDelegate?
     
     let imageView = UIImageView()
     
@@ -117,7 +117,7 @@ extension SpotViewController: MFMailComposeViewControllerDelegate {
         if MFMailComposeViewController.canSendMail() {
             let mailViewController = MFMailComposeViewController()
             mailViewController.mailComposeDelegate = self
-            if let email = self.defaultEmailAddress {
+            if let email = self.delegate?.reportingEmailAddress() {
                 mailViewController.setToRecipients([email])
             }
             mailViewController.setSubject("\(Spot.appName()) issue")
@@ -129,6 +129,10 @@ extension SpotViewController: MFMailComposeViewControllerDelegate {
             
             if let screenshotData = screenshotData() {
                 mailViewController.addAttachmentData(screenshotData, mimeType: "image/png", fileName: "originalScreenshot.png")
+            }
+            
+            if let userAttachmentData = self.delegate?.fileAttatchment() {
+                mailViewController.addAttachmentData(userAttachmentData.data, mimeType: userAttachmentData.mimeType, fileName: userAttachmentData.filename)
             }
             
             self.present(mailViewController, animated: true, completion: nil)
