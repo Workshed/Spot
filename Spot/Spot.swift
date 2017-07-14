@@ -21,7 +21,7 @@ public struct SpotAttachment {
     let data: Data
     let mimeType: String
     
-    init(filename: String, data: Data, mimeType: String) {
+    public init(filename: String, data: Data, mimeType: String) {
         self.filename = filename
         self.data = data
         self.mimeType = mimeType
