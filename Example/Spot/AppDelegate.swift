@@ -45,6 +45,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 extension AppDelegate: SpotDelegate {
+    func additionalEmailContent() -> String? {
+        return nil
+    }
+    
     func reportingEmailAddress() -> String? {
         return "dan@otaku-dev.co.uk"
     }
