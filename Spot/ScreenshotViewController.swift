@@ -121,7 +121,7 @@ extension SpotViewController: MFMailComposeViewControllerDelegate {
                 mailViewController.setToRecipients([email])
             }
             mailViewController.setSubject("\(Spot.appName()) issue")
-            mailViewController.setMessageBody(Spot.deviceAppInfo(), isHTML: false)
+            mailViewController.setMessageBody(Spot.reportEmailMessageBody(), isHTML: false)
             
             if let combinedImageData = combinedImageData() {
                 mailViewController.addAttachmentData(combinedImageData, mimeType: "image/png", fileName: "annotatedScreenshot.png")

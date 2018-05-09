@@ -36,10 +36,16 @@ public protocol SpotDelegate: class {
     func reportingEmailAddress() -> String?
     
     
-    /// Provides a file to attatch to the email
+    /// Provides a file to attatch to the email.
     ///
     /// - Returns: A file name string and the NSData representing the file.
     func fileAttatchment() -> SpotAttachment?
+    
+    
+    /// Provide an additional String to be included in the reporting email.
+    ///
+    /// - Returns: The String to include in the email.
+    func additionalEmailContent() -> String?
 }
 
 @objc public class Spot: NSObject {
@@ -163,7 +169,7 @@ public protocol SpotDelegate: class {
         return identifier
     }
     
-    static func deviceAppInfo() -> String {
+    static func reportEmailMessageBody() -> String {
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         let bundleName = appName()
@@ -171,6 +177,9 @@ public protocol SpotDelegate: class {
         var bodyText = "Bundle name: \(bundleName)\nVersion: \(versionNumber)\nBuild: \(buildNumber)\n"
         if let modelName = Spot.modelName() {
             bodyText += "Device: \(modelName)"
+        }
+        if let additionalInformation = Spot.delegate?.additionalEmailContent() {
+            bodyText += "Additional information: \(additionalInformation)"
         }
         
         return bodyText
