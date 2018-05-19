@@ -1,0 +1,27 @@
+PODS:
+  - Spot (0.1.6):
+    - Zip (~> 1.1)
+  - Zip (1.1.0)
+
+DEPENDENCIES:
+  - Spot (from `../`)
+  - Zip (from `https://github.com/Workshed/Zip.git`)
+
+EXTERNAL SOURCES:
+  Spot:
+    :path: "../"
+  Zip:
+    :git: https://github.com/Workshed/Zip.git
+
+CHECKOUT OPTIONS:
+  Zip:
+    :commit: 580c59a62c04b8dd39bb1acb48efa78c28ebd4a4
+    :git: https://github.com/Workshed/Zip.git
+
+SPEC CHECKSUMS:
+  Spot: 177ffbc5cabc3c1354d315688e15c8a8b7d8d98d
+  Zip: 2284b85c7c5e88af6475913a47283d55a60dd222
+
+PODFILE CHECKSUM: b5db4cf734a3c7fa7ed638afa91286309dcad521
+
+COCOAPODS: 1.5.2
