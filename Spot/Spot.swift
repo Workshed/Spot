@@ -17,12 +17,14 @@ extension UIWindow {
 }
 
 public struct SpotAttachment {
-    let filename: String
+    let fileName: String
+    let fileExtension: String
     let data: Data
     let mimeType: String
     
-    public init(filename: String, data: Data, mimeType: String) {
-        self.filename = filename
+    public init(fileName: String, fileExtension: String, data: Data, mimeType: String) {
+        self.fileName = fileName
+        self.fileExtension = fileExtension
         self.data = data
         self.mimeType = mimeType
     }
@@ -111,7 +113,6 @@ public protocol SpotDelegate: class {
                 screenshotViewController.delegate = delegate
             }
         }
-        
     }
     
     static func loadSpotViewController() -> OrientationLockNavigationController? {
@@ -169,20 +170,24 @@ public protocol SpotDelegate: class {
         return identifier
     }
     
-    static func reportEmailMessageBody() -> String {
+//    static func reportEmailMessageBody() -> String {
+//        return "<Please tell us what happened here>\n\n\(reportInformation())"
+//    }
+    
+    static func reportInformation() -> String {
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
         let bundleName = appName()
         
-        var bodyText = "Bundle name: \(bundleName)\nVersion: \(versionNumber)\nBuild: \(buildNumber)\n"
+        var reportInfo = "Bundle name: \(bundleName)\nVersion: \(versionNumber)\nBuild: \(buildNumber)\n"
         if let modelName = Spot.modelName() {
-            bodyText += "Device: \(modelName)"
+            reportInfo += "Device: \(modelName)\n"
         }
         if let additionalInformation = Spot.delegate?.additionalEmailContent() {
-            bodyText += "Additional information: \(additionalInformation)"
+            reportInfo += "Additional information: \(additionalInformation)"
         }
         
-        return bodyText
+        return reportInfo
     }
     
     static func appName() -> String {

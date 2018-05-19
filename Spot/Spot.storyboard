@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2555" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0JX-wT-qs4">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="0JX-wT-qs4">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -39,27 +40,77 @@
                                 <action selector="pressedCancel:" destination="zHn-Ic-ePJ" id="xhR-za-W6T"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Send" id="TmW-Qa-znS">
+                        <barButtonItem key="rightBarButtonItem" title="Share" id="TmW-Qa-znS">
                             <connections>
-                                <action selector="pressedSend:" destination="zHn-Ic-ePJ" id="AzW-xY-zWy"/>
+                                <action selector="pressedShare:" destination="zHn-Ic-ePJ" id="AzW-xY-zWy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="screenshotImageView" destination="88E-KH-0bL" id="44t-5y-auS"/>
+                        <segue destination="Z0d-rL-hN0" kind="show" identifier="shareReport" id="1EG-JX-x37"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vmz-qC-Q0a" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1144.8" y="-204.64767616191907"/>
         </scene>
+        <!--Share Selection View Controller-->
+        <scene sceneID="xBx-hM-AfS">
+            <objects>
+                <viewController id="Z0d-rL-hN0" customClass="ShareSelectionViewController" customModule="Spot" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="X2g-5u-sNA"/>
+                        <viewControllerLayoutGuide type="bottom" id="m03-Ww-rmU"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Pui-PW-F4I">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Yv0-cn-WDP">
+                                <rect key="frame" x="16" y="64" width="343" height="603"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQJ-7Q-sdR">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="301.5"/>
+                                        <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Email" image="730-envelope"/>
+                                        <connections>
+                                            <action selector="pressedEmail" destination="Z0d-rL-hN0" eventType="touchUpInside" id="DLL-hV-P0z"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DqF-9B-N5u">
+                                        <rect key="frame" x="0.0" y="301.5" width="343" height="301.5"/>
+                                        <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <inset key="imageEdgeInsets" minX="-10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                        <state key="normal" title="Other" image="702-share"/>
+                                        <connections>
+                                            <action selector="pressedShare" destination="Z0d-rL-hN0" eventType="touchDragInside" id="Dc3-it-f2A"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Yv0-cn-WDP" firstAttribute="leading" secondItem="Pui-PW-F4I" secondAttribute="leadingMargin" id="TU1-gn-kpR"/>
+                            <constraint firstItem="m03-Ww-rmU" firstAttribute="top" secondItem="Yv0-cn-WDP" secondAttribute="bottom" id="mW8-Ri-gjT"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Yv0-cn-WDP" secondAttribute="trailing" id="t8A-GO-GV0"/>
+                            <constraint firstItem="Yv0-cn-WDP" firstAttribute="top" secondItem="X2g-5u-sNA" secondAttribute="bottom" id="xei-wK-ILw"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="faV-je-Rem" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1885.5999999999999" y="-205.54722638680661"/>
+        </scene>
         <!--Orientation Lock Navigation Controller-->
         <scene sceneID="ORW-TI-ZWf">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" hidesBarsOnTap="YES" id="0JX-wT-qs4" customClass="OrientationLockNavigationController" customModule="Spot" customModuleProvider="target" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="0JX-wT-qs4" customClass="OrientationLockNavigationController" customModule="Spot" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ABy-Pp-uIX">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -72,4 +123,8 @@
             <point key="canvasLocation" x="205.59999999999999" y="-204.64767616191907"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="702-share" width="21" height="28"/>
+        <image name="730-envelope" width="28" height="18"/>
+    </resources>
 </document>

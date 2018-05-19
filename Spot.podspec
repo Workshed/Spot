@@ -22,13 +22,14 @@ When you spot something in your app that needs reporting just shake your phone/d
   s.author           = { 'Daniel Leivers' => 'dan@sofaracing.com' }
   s.source           = { :git => 'https://github.com/Workshed/Spot.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sofaracing'
+  s.dependency 'Zip', '~> 1.1'
 
   s.ios.deployment_target = '9.0'
 
   s.source_files = 'Spot/*.swift'
   
   s.resource_bundles = {
-    'Spot' => ['Spot/Spot.storyboard']
+    'Spot' => ['Spot/Spot.storyboard', 'Spot/SpotAssets.xcassets', 'Spot/glyphish-license.txt']
   }
 
   s.frameworks = 'UIKit', 'MessageUI'

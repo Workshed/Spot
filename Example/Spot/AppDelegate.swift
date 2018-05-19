@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Spot
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -56,6 +57,6 @@ extension AppDelegate: SpotDelegate {
     func fileAttatchment() -> SpotAttachment? {
         let attachmentString = "Here's an attachment!"
         guard let data = attachmentString.data(using: .utf8) else { return nil }
-        return SpotAttachment(filename: "log.txt", data: data, mimeType: "text/plain")
+        return SpotAttachment(fileName: "log", fileExtension: "txt", data: data, mimeType: "text/plain")
     }
 }

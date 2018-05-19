@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import MessageUI
 
 /// Drawing code taken from https://github.com/FlexMonkey/ForceSketch
 class SpotViewController: UIViewController {
@@ -24,6 +23,8 @@ class SpotViewController: UIViewController {
     let compositeFilter = CIFilter(name: "CISourceOverCompositing")!
     var imageAccumulator: CIImageAccumulator!
     var previousTouchLocation: CGPoint?
+    
+    private var shareReport: SpotReport?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -87,8 +88,8 @@ class SpotViewController: UIViewController {
                                      forKey: kCIInputImageKey)
             compositeFilter.setValue(imageAccumulator.image(),
                                      forKey: kCIInputBackgroundImageKey)
-            
-            imageAccumulator.setImage(compositeFilter.value(forKey: kCIOutputImageKey) as! CIImage)
+            guard let ciImage = compositeFilter.value(forKey: kCIOutputImageKey) as? CIImage else { return }
+            imageAccumulator.setImage(ciImage)
             
             imageView.image = UIImage(ciImage: imageAccumulator.image())
         }
@@ -102,74 +103,29 @@ class SpotViewController: UIViewController {
         imageView.frame = view.frame
     }
     
-    @IBAction func pressedSend(_ sender: Any) {
-        showEmail()
+    @IBAction func pressedShare(_ sender: Any) {
+        let appName = Spot.appName()
+        let email = self.delegate?.reportingEmailAddress()
+        let reportInformation = Spot.reportInformation()
+        let compositeImage = combinedImage()
+        let additionalFile = self.delegate?.fileAttatchment()
+        
+        shareReport = SpotReport(appName: appName, emailRecipient: email, reportInformation: reportInformation, annotatedImage: compositeImage, screenshotImage: screenshot, additionalAttachment: additionalFile)
+        performSegue(withIdentifier: "shareReport", sender: self)
     }
     
     @IBAction func pressedCancel(_ sender: Any) {
         self.navigationController?.dismiss(animated: true, completion: nil)
     }
-}
-
-extension SpotViewController: MFMailComposeViewControllerDelegate {
     
-    func showEmail() {
-        if MFMailComposeViewController.canSendMail() {
-            let mailViewController = MFMailComposeViewController()
-            mailViewController.mailComposeDelegate = self
-            if let email = self.delegate?.reportingEmailAddress() {
-                mailViewController.setToRecipients([email])
-            }
-            mailViewController.setSubject("\(Spot.appName()) issue")
-            mailViewController.setMessageBody(Spot.reportEmailMessageBody(), isHTML: false)
-            
-            if let combinedImageData = combinedImageData() {
-                mailViewController.addAttachmentData(combinedImageData, mimeType: "image/png", fileName: "annotatedScreenshot.png")
-            }
-            
-            if let screenshotData = screenshotData() {
-                mailViewController.addAttachmentData(screenshotData, mimeType: "image/png", fileName: "originalScreenshot.png")
-            }
-            
-            if let userAttachmentData = self.delegate?.fileAttatchment() {
-                mailViewController.addAttachmentData(userAttachmentData.data, mimeType: userAttachmentData.mimeType, fileName: userAttachmentData.filename)
-            }
-            
-            self.present(mailViewController, animated: true, completion: nil)
-        }
-        else {
-            let alert = UIAlertController(title: "Error", message: "No email account available", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) { _ in
-                alert.dismiss(animated: true, completion: nil)
-            })
-                
-            present(alert, animated: true, completion: nil)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let shareController = segue.destination as? ShareSelectionViewController {
+            shareController.shareReport = shareReport
         }
     }
     
-    func combinedImageData() -> Data? {
-        var combinedImageData: Data?
-        if let drawnImage = imageView.image, let screenshotImage = screenshot {
-            if let combinedImage = Spot.combine(bottom: screenshotImage, with: drawnImage) {
-                combinedImageData = UIImagePNGRepresentation(combinedImage)
-            }
-        }
-        
-        return combinedImageData
-    }
-    
-    func screenshotData() -> Data? {
-        var screenshotData: Data?
-        if let screenshot = screenshot {
-            screenshotData = UIImagePNGRepresentation(screenshot)
-        }
-        
-        return screenshotData
-    }
-    
-    // MARK: MFMailComposeViewControllerDelegate methods
-    
-    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
-        self.dismiss(animated: true, completion: nil)
+    func combinedImage() -> UIImage? {
+        guard let drawnImage = imageView.image, let screenshotImage = screenshot else { return nil }
+        return Spot.combine(bottom: screenshotImage, with: drawnImage)
     }
 }
