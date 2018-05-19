@@ -170,10 +170,6 @@ public protocol SpotDelegate: class {
         return identifier
     }
     
-//    static func reportEmailMessageBody() -> String {
-//        return "<Please tell us what happened here>\n\n\(reportInformation())"
-//    }
-    
     static func reportInformation() -> String {
         let versionNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
         let buildNumber = Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as! String
@@ -184,7 +180,7 @@ public protocol SpotDelegate: class {
             reportInfo += "Device: \(modelName)\n"
         }
         if let additionalInformation = Spot.delegate?.additionalEmailContent() {
-            reportInfo += "Additional information: \(additionalInformation)"
+            reportInfo += "Additional information: \(additionalInformation)\n"
         }
         
         return reportInfo
