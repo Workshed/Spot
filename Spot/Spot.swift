@@ -100,8 +100,7 @@ public protocol SpotDelegate: class {
         guard let initialViewController = loadSpotViewController() else { return }
         guard let topViewController = topViewController() else { return }
         
-        
-        initialViewController.orientationToLock = UIDevice.current.orientation
+        initialViewController.orientationToLock = .portrait
         if ((topViewController as? OrientationLockNavigationController) != nil) {
             // We're already presenting an instance of Spot!
             return
