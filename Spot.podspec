@@ -31,5 +31,6 @@ When you spot something in your app that needs reporting just shake your phone/d
     'Spot' => ['Spot/Spot.storyboard']
   }
 
+  s.swift_version = '5.0'
   s.frameworks = 'UIKit', 'MessageUI'
 end
