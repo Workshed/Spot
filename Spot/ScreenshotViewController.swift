@@ -19,8 +19,8 @@ class SpotViewController: UIViewController {
     
     let imageView = UIImageView()
     
-    let hsb = CIFilter(name: "CIColorControls", withInputParameters: [kCIInputBrightnessKey: 0.05])!
-    let gaussianBlur = CIFilter(name: "CIGaussianBlur", withInputParameters: [kCIInputRadiusKey: 1])!
+    let hsb = CIFilter(name: "CIColorControls", parameters: [kCIInputBrightnessKey: 0.05])!
+    let gaussianBlur = CIFilter(name: "CIGaussianBlur", parameters: [kCIInputRadiusKey: 1])!
     let compositeFilter = CIFilter(name: "CISourceOverCompositing")!
     var imageAccumulator: CIImageAccumulator!
     var previousTouchLocation: CGPoint?
@@ -33,7 +33,7 @@ class SpotViewController: UIViewController {
             screenshotImageView.image = screenshot
         }
         
-        imageAccumulator = CIImageAccumulator(extent: view.frame, format: kCIFormatARGB8)
+        imageAccumulator = CIImageAccumulator(extent: view.frame, format: CIFormat.ARGB8)
         
         view.addSubview(imageView)
     }
@@ -139,7 +139,7 @@ extension SpotViewController: MFMailComposeViewControllerDelegate {
         }
         else {
             let alert = UIAlertController(title: "Error", message: "No email account available", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel) { _ in
+            alert.addAction(UIAlertAction(title: "OK", style: UIAlertAction.Style.cancel) { _ in
                 alert.dismiss(animated: true, completion: nil)
             })
                 
@@ -151,7 +151,7 @@ extension SpotViewController: MFMailComposeViewControllerDelegate {
         var combinedImageData: Data?
         if let drawnImage = imageView.image, let screenshotImage = screenshot {
             if let combinedImage = Spot.combine(bottom: screenshotImage, with: drawnImage) {
-                combinedImageData = UIImagePNGRepresentation(combinedImage)
+                combinedImageData = combinedImage.pngData()
             }
         }
         
@@ -161,7 +161,7 @@ extension SpotViewController: MFMailComposeViewControllerDelegate {
     func screenshotData() -> Data? {
         var screenshotData: Data?
         if let screenshot = screenshot {
-            screenshotData = UIImagePNGRepresentation(screenshot)
+            screenshotData = screenshot.pngData()
         }
         
         return screenshotData

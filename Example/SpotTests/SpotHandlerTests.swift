@@ -45,11 +45,6 @@ class SpotHandlerTests: XCTestCase {
         XCTAssertEqual(appName, "Spot")
     }
     
-    func testDeviceAppInfo() {
-        let info = Spot.deviceAppInfo()
-        XCTAssertNotNil(info)
-    }
-    
     func testCombineImages() {
         let rect = CGRect.init(x: 0, y: 0, width: 100, height: 100)
         UIGraphicsBeginImageContext(rect.size);
