@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIWindow {
-    open override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    open override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if Spot.sharedInstance.handling {
             Spot.launchFlow()
         }
@@ -48,7 +48,8 @@ public protocol SpotDelegate: class {
     func additionalEmailContent() -> String?
 }
 
-@objc public class Spot: NSObject {
+@objcMembers
+public class Spot: NSObject {
     
     static let sharedInstance = Spot()
     fileprivate var handling: Bool = false
