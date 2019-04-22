@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Spot'
-  s.version          = '0.1.7'
+  s.version          = '0.1.8'
   s.summary          = 'A super simple pod for reporting UI issues.'
 
   s.description      = <<-DESC
@@ -23,7 +23,7 @@ When you spot something in your app that needs reporting just shake your phone/d
   s.source           = { :git => 'https://github.com/Workshed/Spot.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/sofaracing'
 
-  s.ios.deployment_target = '9.0'
+  s.ios.deployment_target = '10.0'
 
   s.source_files = 'Spot/*.swift'
   
