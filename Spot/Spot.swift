@@ -98,7 +98,8 @@ public class Spot: NSObject {
     static func loadViewControllers(withScreenshot screenshot: UIImage) {
         guard let initialViewController = loadSpotViewController() else { return }
         guard let topViewController = topViewController() else { return }
-        
+        initialViewController.modalPresentationStyle = .overFullScreen
+        initialViewController.modalTransitionStyle = .crossDissolve
         
         initialViewController.orientationToLock = UIDevice.current.orientation
         if ((topViewController as? OrientationLockNavigationController) != nil) {
