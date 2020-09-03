@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'Spot'
-  s.version          = '0.1.8'
+  s.version          = '0.1.9'
   s.summary          = 'A super simple pod for reporting UI issues.'
 
   s.description      = <<-DESC
